@@ -1,23 +1,22 @@
 {% load i18n media_tree_thumbnail %}
 
-<div id="{{ plugin.id_attr }}" class="gallery{% if folder_list and folder_list|length > 1 %} with-folder-list{% endif %}">
+<div id="{{ plugin.id_attr }}" class="gallery">
 
-{% if folder_list and folder_list|length > 1 %}
-{{ folder_list|length }}
-<ul class="file-list folder_list">
-    {{ folder_list|unordered_list }}
+{% if folders and folders|length > 1 %}
+<ul class="file-list folders">
+    {{ folders|unordered_list }}
 </ul>
 {% endif %}
 
-{% if node_list %}
+{% if nodes %}
 
 <div class="slideshow">
-{% for image_node in node_list %}
+{% for image_node in nodes %}
 {% include "cms/plugins/media_tree_image.html" %}
 {% endfor %}
 </div>
 
-{% ifnotequal node_list|length 1 %}
+{% ifnotequal nodes|length 1 %}
 <div class="nav">
 <ul>
     <li class="button"><a class="prev" href="javascript:void(0);">{% trans "Previous" %}</a></li>
@@ -33,9 +32,9 @@
 //<![CDATA[
 $(document).ready(function() {
     
-    {% ifnotequal node_list|length 1 %}
+    {% ifnotequal nodes|length 1 %}
     var thumbs = [
-    {% for node in node_list %}
+    {% for node in nodes %}
         {% if not forloop.first %},{% endif %}'<li><a href="#">{% if pager_thumbnails %}<img src="{% thumbnail node pager_thumbnail_size as thumb%}{{ thumb.url }}" alt="{{ node.get_alt }}"/>{% else %}{{ forloop.counter}}{% endif %}</a></li>'
     {% endfor %}
     ]
@@ -52,7 +51,7 @@ $(document).ready(function() {
 		fx: '{{ fx }}'
 		{% ifnotequal speed "normal" %},speed: '{{ speed }}'{% endifnotequal %}
 		,timeout: {{ timeout }} 
-        {% ifnotequal node_list|length 1 %}
+        {% ifnotequal nodes|length 1 %}
 	    ,prev: '#{{ plugin.id_attr }} .prev'
 	    ,next: '#{{ plugin.id_attr }} .next'
 	    ,pager: '#{{ plugin.id_attr }} .pager'
@@ -62,7 +61,7 @@ $(document).ready(function() {
         {% endifnotequal %}
 	});
 	
-	{% ifnotequal node_list|length 1 %}
+	{% ifnotequal nodes|length 1 %}
     {% if auto_play %}
     $('#{{ plugin.id_attr }} .play').closest('li').hide();
     {% else %}
