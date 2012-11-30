@@ -306,3 +306,11 @@ ul.node-tools li:last-child {
     -webkit-box-shadow: 0px 2px 5px #666;
     box-shadow: 0px 2px 5px #666;
 }
+
+.qq-upload-button {
+display: block;
+color: white;
+padding: .1em 24px .1em 8px;
+height: 14px;
+background: #999 url(../../admin/img/tooltag-add.gif) top right no-repeat;
+}
